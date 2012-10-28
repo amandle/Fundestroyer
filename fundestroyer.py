@@ -18,29 +18,34 @@ def load_dictionary():
     dictionary = f.readlines()
   return dictionary
 
+
 def find_words(board, dictionary, important_letters):
   found_words = []
   for word in dictionary:
+    word = word.strip().lower()
     scratch_board = copy(board)
     word_found = True
-    for character in word.strip().lower():
+    for character in word:
       if character in scratch_board:
-        scratch_board = scratch_board.replace(character,'')
+        scratch_board = scratch_board.replace(character, '', 1)
       else:
+        if DEBUG:
+          print 'character %s not found in %s' % (character, scratch_board)
         word_found = False
         break
     if word_found:
-      scratch_word = copy(word.strip().lower())
+      scratch_word = copy(word)
       importance = 0
       for letter in important_letters:
         if letter in scratch_word:
           importance += 1
-          scratch_word = scratch_word.replace(letter, '')
+          scratch_word = scratch_word.replace(letter, '', 1)
       found_words.append({
-        'word':word.strip().lower(),
+        'word': word,
         'importance': importance,
       })
   return found_words
+
 
 def get_grid():
   board = ''
@@ -62,8 +67,8 @@ if __name__ == '__main__':
   print 'what letters are important?'
   important_letters = sys.stdin.readline().strip()
   found = find_words(board, dictionary, important_letters)
-  found_importance = sorted(found, cmp=lambda x,y: cmp(x.get('importance'), y.get('importance')))
-  found_length = sorted(found, cmp=lambda x,y: cmp(len(x.get('word')), len(y.get('word'))))
+  found_importance = sorted(found, cmp=lambda x, y: cmp(x.get('importance'), y.get('importance')))
+  found_length = sorted(found, cmp=lambda x, y: cmp(len(x.get('word')), len(y.get('word'))))
   print 'found words, sorted by importance:'
   for word_struct in found_importance:
     print '%s: %d' % (word_struct.get('word'), word_struct.get('importance'))
