@@ -29,8 +29,6 @@ def find_words(board, dictionary, important_letters):
       if character in scratch_board:
         scratch_board = scratch_board.replace(character, '', 1)
       else:
-        if DEBUG:
-          print 'character %s not found in %s' % (character, scratch_board)
         word_found = False
         break
     if word_found:
