@@ -2,6 +2,11 @@
 # written by amandle
 # fundestroyer.py makes letterpress fun for no one.
 
+# usage:
+# you can simply execute the script:
+# fundestroyer.py
+# For convenience the first argument to the script can be the letters on the board.
+
 from copy import copy
 import sys
 
